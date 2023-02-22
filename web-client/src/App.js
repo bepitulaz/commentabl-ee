@@ -1,11 +1,17 @@
-import './App.css';
+import { Box, ChakraProvider } from '@chakra-ui/react'
+import CommentForm from './CommentForm'
 
-function App() {
+function App({ targetElement }) {
+  const hostname = window.location.hostname
+  const dataUrl = targetElement.dataset.url
+
   return (
-    <div className="App">
-      <p>Test</p>
-    </div>
-  );
+    <ChakraProvider>
+      <Box>
+        <CommentForm />
+      </Box>
+    </ChakraProvider>
+  )
 }
 
-export default App;
+export default App
