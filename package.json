@@ -3,12 +3,14 @@
   "workspaces": {
     "packages": [
       "api",
+      "form",
       "web"
     ]
   },
   "devDependencies": {
-    "@redwoodjs/auth-dbauth-setup": "4.1.4",
-    "@redwoodjs/core": "4.1.4"
+    "@chakra-ui/storybook-addon": "^4.0.16",
+    "@redwoodjs/auth-dbauth-setup": "4.2.0",
+    "@redwoodjs/core": "4.2.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
