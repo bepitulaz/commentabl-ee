@@ -1,11 +1,13 @@
+import type {
+  DeleteWebsiteMutationVariables,
+  FindWebsiteById,
+} from 'types/graphql'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import { timeTag,  } from 'src/lib/formatters'
-
-import type { DeleteWebsiteMutationVariables, FindWebsiteById } from 'types/graphql'
+import { timeTag } from 'src/lib/formatters'
 
 const DELETE_WEBSITE_MUTATION = gql`
   mutation DeleteWebsiteMutation($id: Int!) {
@@ -49,13 +51,16 @@ const Website = ({ website }: Props) => {
             <tr>
               <th>Id</th>
               <td>{website.id}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Domain</th>
               <td>{website.domain}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Created at</th>
               <td>{timeTag(website.createdAt)}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Updated at</th>
               <td>{timeTag(website.updatedAt)}</td>
             </tr>
