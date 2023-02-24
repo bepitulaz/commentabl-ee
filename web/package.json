@@ -22,8 +22,10 @@
     "@redwoodjs/web": "4.2.0",
     "@simplewebauthn/browser": "^6",
     "framer-motion": "^6",
+    "humanize-string": "2.1.0",
     "prop-types": "15.8.1",
     "react": "17.0.2",
+    "react-avatar": "^5.0.3",
     "react-dom": "17.0.2",
     "react-icons": "^4.7.1"
   }

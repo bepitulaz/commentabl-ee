@@ -2,6 +2,8 @@ export const schema = gql`
   type Website {
     id: Int!
     domain: String!
+    createdAt: DateTime!
+    updatedAt: DateTime
   }
 
   type Query {
