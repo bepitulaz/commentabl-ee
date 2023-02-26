@@ -33,7 +33,7 @@ const WebsiteForm = (props: WebsiteFormProps) => {
       <Card>
         <CardHeader borderBottom="1px solid" borderBottomColor="gray.100">
           <Heading as="h4" size="md">
-            General
+            General information
           </Heading>
         </CardHeader>
         <Form<FormWebsite> onSubmit={onSubmit} error={props.error}>

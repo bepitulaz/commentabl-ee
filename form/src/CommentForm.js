@@ -10,6 +10,8 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react'
+import { useMutation } from '@apollo/client'
+import { PUBLIC_CREATE_COMMENT } from './gql'
 
 const EMAIL_TEXT =
   'If you provide your email, then you will get notification when someone replies to your comment.'
@@ -22,8 +24,20 @@ function CommentForm() {
     reset,
   } = useForm()
 
+  const [publicCreateComment, { data, loading, error }] = useMutation(
+    PUBLIC_CREATE_COMMENT
+  )
+
   const onSubmit = (data) => {
-    console.log(data)
+    const input = {
+      link: window.location.href,
+      parentCommentId: null,
+      authorName: data.fullname,
+      authorEmail: data.email,
+      comment: data.comment,
+    }
+
+    publicCreateComment({ variables: { input } })
   }
 
   useEffect(() => {
@@ -59,7 +73,7 @@ function CommentForm() {
         <FormErrorMessage>{errors?.comment?.message}</FormErrorMessage>
       </FormControl>
       <Box py={2}>
-        <Button type="submit" colorScheme="teal">
+        <Button type="submit" colorScheme="teal" isDisabled={loading}>
           Submit my comment
         </Button>
       </Box>

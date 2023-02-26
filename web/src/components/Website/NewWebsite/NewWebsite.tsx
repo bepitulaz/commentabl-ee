@@ -1,10 +1,11 @@
+import { Box, Flex, Heading } from '@chakra-ui/react'
+import type { CreateWebsiteInput } from 'types/graphql'
+
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import WebsiteForm from 'src/components/Website/WebsiteForm'
-
-import type { CreateWebsiteInput } from 'types/graphql'
 
 const CREATE_WEBSITE_MUTATION = gql`
   mutation CreateWebsiteMutation($input: CreateWebsiteInput!) {
@@ -33,14 +34,14 @@ const NewWebsite = () => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Website</h2>
-      </header>
-      <div className="rw-segment-main">
+    <Box>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Heading size="lg">Add new website</Heading>
+      </Flex>
+      <Box mt={5}>
         <WebsiteForm onSave={onSave} loading={loading} error={error} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

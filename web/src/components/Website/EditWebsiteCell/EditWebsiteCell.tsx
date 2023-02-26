@@ -1,10 +1,12 @@
 import {
   Box,
+  Button,
   Card,
   CardHeader,
   CardBody,
   Flex,
   Heading,
+  Text,
 } from '@chakra-ui/react'
 import type {
   EditWebsiteById,
@@ -71,19 +73,18 @@ export const Success = ({ website }: CellSuccessProps<EditWebsiteById>) => {
   const [deleteWebsite] = useMutation(DELETE_WEBSITE_MUTATION, {
     onCompleted: () => {
       toast.success('Website deleted')
+      navigate(routes.websites())
     },
     onError: (error) => {
       toast.error(error.message)
     },
-    // This refetches the query on the list page. Read more about other ways to
-    // update the cache over here:
-    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
-    refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
   })
 
-  const onDeleteClick = (id: DeleteWebsiteMutationVariables['id']) => {
-    if (confirm('Are you sure you want to delete website ' + id + '?')) {
+  const onDeleteClick = (
+    id: DeleteWebsiteMutationVariables['id'],
+    domain: string
+  ) => {
+    if (confirm(`Are you sure you want to delete website: ${domain}?`)) {
       deleteWebsite({ variables: { id } })
     }
   }
@@ -114,6 +115,18 @@ export const Success = ({ website }: CellSuccessProps<EditWebsiteById>) => {
                 Dangerous zone
               </Heading>
             </CardHeader>
+            <CardBody pt={0}>
+              <Flex justifyContent="space-between" alignItems="center" py={3}>
+                <Text>Delete {website.domain} and its data?</Text>
+                <Button
+                  onClick={() => onDeleteClick(website.id, website.domain)}
+                  colorScheme="red"
+                  size="sm"
+                >
+                  Delete
+                </Button>
+              </Flex>
+            </CardBody>
           </Card>
         </Box>
       </Box>

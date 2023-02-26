@@ -17,6 +17,7 @@ model User {
   resetTokenExpiresAt DateTime?
   webAuthnChallenge   String?          @unique
   credentials         UserCredential[]
+  Website             Website[]
 }
 
 model UserCredential {
@@ -29,25 +30,56 @@ model UserCredential {
 }
 
 model Website {
-  id        Int       @id @default(autoincrement())
-  domain    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
+  id         Int       @id @default(autoincrement())
+  domain     String
+  owner      User      @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  isArchived Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime?
+  Comment    Comment[]
+  Author     Author[]
 
   @@index([domain])
 }
 
 model Comment {
-  id          Int       @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
+  website     Website             @relation(fields: [websiteId], references: [id])
   websiteId   Int
   link        String
   message     String
   parentId    Int?
-  isSpam      Boolean   @default(false)
-  isPublished Boolean   @default(false)
-  isDeleted   Boolean   @default(false)
-  createdAt   DateTime  @default(now())
+  isSpam      Boolean             @default(false)
+  isPublished Boolean             @default(false)
+  isDeleted   Boolean             @default(false)
+  createdAt   DateTime            @default(now())
   updatedAt   DateTime?
+  authors     AuthorsOnComments[]
 
   @@index([websiteId, link, parentId])
+}
+
+model Author {
+  id        Int                 @id @default(autoincrement())
+  name      String
+  email     String?
+  website   Website             @relation(fields: [websiteId], references: [id])
+  websiteId Int
+  createdAt DateTime            @default(now())
+  updatedAt DateTime?
+  comments  AuthorsOnComments[]
+
+  @@index([name])
+}
+
+model AuthorsOnComments {
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId Int
+  author    Author   @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
+  createdBy String
+
+  @@id([commentId, authorId])
 }
