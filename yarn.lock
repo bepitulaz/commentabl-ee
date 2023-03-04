@@ -16395,6 +16395,7 @@ __metadata:
     react-avatar: ^5.0.3
     react-dom: ^18.2.0
     react-hook-form: ^7.43.2
+    react-icons: ^4.8.0
     react-scripts: 5.0.1
     web-vitals: ^2.1.4
   languageName: unknown
@@ -24766,6 +24767,15 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: be1d82522feba668df7d6f4d1f6ea59f4d5aca58f761790a5e08fcef50ef27d563a9fe78d803576fa64910607172886d559f6ad1cd9c7857b683b4e16eb50eea
+  languageName: node
+  linkType: hard
+
+"react-icons@npm:^4.8.0":
+  version: 4.8.0
+  resolution: "react-icons@npm:4.8.0"
+  peerDependencies:
+    react: "*"
+  checksum: fd8e6656ce863ca739e079a321fe122bcf21708270ddac4ce32b7e1f333a9957f97eca08f58c4837057e23355749a9b80569978a67adc734cb4a1dfdc506ba3f
   languageName: node
   linkType: hard
 

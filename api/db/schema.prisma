@@ -11,6 +11,7 @@ generator client {
 model User {
   id                  Int              @id @default(autoincrement())
   email               String           @unique
+  name                String           @default("Website owner")
   hashedPassword      String
   salt                String
   resetToken          String?
@@ -55,6 +56,9 @@ model Comment {
   isDeleted   Boolean             @default(false)
   createdAt   DateTime            @default(now())
   updatedAt   DateTime?
+  // If createdBy and updatedBy is not null then it's a comment created by the admin
+  createdBy   Int?
+  updatedBy   Int?
   authors     AuthorsOnComments[]
 
   @@index([websiteId, link, parentId])

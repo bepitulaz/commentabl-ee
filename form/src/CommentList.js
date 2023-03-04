@@ -1,5 +1,14 @@
-import { Box, Flex, CircularProgress, Text, Stack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  CircularProgress,
+  Text,
+  Stack,
+  Heading,
+} from '@chakra-ui/react'
 import { useQuery } from '@apollo/client'
+import { FiCornerLeftUp } from 'react-icons/fi'
 import { PUBLIC_COMMENTS } from './gql'
 import Avatar from 'react-avatar'
 
@@ -21,12 +30,15 @@ function CommentList({ link }) {
 
   return (
     <Box>
-      {comments.map((comment) => (
-        <CommentRow
-          key={`${comment.id}-${comment.createdAt}`}
-          comment={comment}
-        />
-      ))}
+      <Heading my={3} as="h3" size="md">Comments ({comments.length})</Heading>
+      <Box height={400} overflowY="scroll">
+        {comments.map((comment) => (
+          <CommentRow
+            key={`${comment.id}-${comment.createdAt}`}
+            comment={comment}
+          />
+        ))}
+      </Box>
     </Box>
   )
 }
@@ -48,7 +60,17 @@ function CommentRow({ comment }) {
               {`${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}`.trim()}
             </Text>
           </Box>
-          <Text px={3} sx={{ whiteSpace: 'pre-wrap' }}>{`${comment?.message}`}</Text>
+          <Text
+            px={3}
+            sx={{ whiteSpace: 'pre-wrap' }}
+          >{`${comment?.message}`}</Text>
+          <Box width={100}>
+            <Button size="sm" colorScheme="gray">
+              <Flex justifyContent="space-between" sx={{ gap: 1 }}>
+                <FiCornerLeftUp /> <Text>Reply</Text>
+              </Flex>
+            </Button>
+          </Box>
         </Stack>
       </Flex>
     </Box>

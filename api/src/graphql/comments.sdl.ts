@@ -35,6 +35,7 @@ export const schema = gql`
     isSpam: Boolean!
     isPublished: Boolean!
     isDeleted: Boolean!
+    createdBy: Int
   }
 
   input UpdateCommentInput {

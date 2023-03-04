@@ -24,9 +24,7 @@ function CommentForm() {
     reset,
   } = useForm()
 
-  const [publicCreateComment, { data, loading, error }] = useMutation(
-    PUBLIC_CREATE_COMMENT
-  )
+  const [publicCreateComment, { loading }] = useMutation(PUBLIC_CREATE_COMMENT)
 
   const onSubmit = (data) => {
     const input = {
@@ -64,7 +62,6 @@ function CommentForm() {
       <FormControl py={1} isInvalid={'comment' in errors}>
         <FormLabel>Your comment</FormLabel>
         <Textarea
-          type="text"
           placeholder="What's on your mind?"
           {...register('comment', {
             required: "Don't forget to write your comment",

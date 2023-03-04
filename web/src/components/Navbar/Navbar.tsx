@@ -69,16 +69,21 @@ const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
               _focus={{ boxShadow: 'none' }}
             >
               <HStack>
-                <Avatar size="40px" email={currentUser.email} round />
+                <Avatar
+                  size="40px"
+                  email={currentUser.email}
+                  name={currentUser.name}
+                  round
+                />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{currentUser.email}</Text>
+                  <Text fontSize="sm">{currentUser.name}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    {currentUser.email}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

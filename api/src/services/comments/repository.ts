@@ -15,6 +15,7 @@ export async function findCommentsByWebsiteId(
         id: websiteId,
         ownerId: context.currentUser.id,
       },
+      parentId: null,
     },
     orderBy: {
       createdAt: 'desc',
@@ -42,6 +43,7 @@ export function findCommentsByLink(link: string) {
       isPublished: true,
       isSpam: false,
       isDeleted: false,
+      parentId: null,
     },
     orderBy: {
       createdAt: 'desc',
@@ -62,9 +64,10 @@ export function findCommentById(commentId: number) {
   })
 }
 
-export function createComment(input) {
+export function createComment(data) {
+  const { input } = data
   return db.comment.create({
-    data: input,
+    data: { ...input },
   })
 }
 

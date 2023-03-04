@@ -43,9 +43,10 @@ export const timeTag = (dateTime?: string) => {
   let output: string | JSX.Element = ''
 
   if (dateTime) {
+    const dateTimeObj = new Date(dateTime)
     output = (
       <time dateTime={dateTime} title={dateTime}>
-        {new Date(dateTime).toUTCString()}
+        {`${dateTimeObj.toLocaleDateString()} ${dateTimeObj.toLocaleTimeString()}`.trim()}
       </time>
     )
   }
