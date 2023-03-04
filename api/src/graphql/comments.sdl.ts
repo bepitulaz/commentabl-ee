@@ -21,6 +21,10 @@ export const schema = gql`
   type Query {
     comments(websiteId: Int!): [Comment!]! @requireAuth
     comment(id: Int!): Comment @requireAuth
+    """
+    The query that will be called by web form
+    """
+    publicComments(link: String!): [Comment] @skipAuth
   }
 
   input CreateCommentInput {

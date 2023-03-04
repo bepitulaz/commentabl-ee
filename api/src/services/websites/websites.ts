@@ -1,50 +1,28 @@
 import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
-import { db } from 'src/lib/db'
-import { DBRecordError } from 'src/lib/errorHelper'
+import * as Repository from './repository'
 
 export const websites: QueryResolvers['websites'] = () => {
-  return db.website.findMany()
+  return Repository.findWebsites(context)
 }
 
 export const website: QueryResolvers['website'] = async ({ id }) => {
-  const website = await db.website.findUnique({
-    where: { id },
-  })
-
-  if (!website) {
-    throw new DBRecordError("There's nothing to show.")
-  }
-
-  return website
+  return Repository.findWebsiteBy({ id })
 }
 
 export const createWebsite: MutationResolvers['createWebsite'] = ({
   input,
 }) => {
-  return db.website.create({
-    data: {
-      ...input,
-      ownerId: context.currentUser.id,
-    },
-  })
+  return Repository.createWebsite(input, context)
 }
 
 export const updateWebsite: MutationResolvers['updateWebsite'] = ({
   id,
   input,
 }) => {
-  return db.website.update({
-    data: {
-      ...input,
-      updatedAt: new Date(),
-    },
-    where: { id },
-  })
+  return Repository.updateByWebsiteId(id, input)
 }
 
 export const deleteWebsite: MutationResolvers['deleteWebsite'] = ({ id }) => {
-  return db.website.delete({
-    where: { id },
-  })
+  return Repository.deleteByWebsiteId(id)
 }

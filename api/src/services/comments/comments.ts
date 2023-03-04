@@ -1,60 +1,38 @@
 import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
-import { db } from 'src/lib/db'
 import { DBRecordError } from 'src/lib/errorHelper'
+import * as AuthorRepository from 'src/services/authors/repository'
+import * as WebsiteRepository from 'src/services/websites/repository'
 
-export const comments: QueryResolvers['comments'] = async ({ websiteId }) => {
-  const comments = await db.comment.findMany({
-    where: {
-      website: {
-        id: websiteId,
-        ownerId: context.currentUser.id,
-      },
-    },
-    include: {
-      authors: {
-        include: {
-          author: true,
-        },
-      },
-    },
-  })
+import * as Repository from './repository'
 
-  if (comments.length === 0) {
-    throw new DBRecordError('No data to show')
-  }
-
-  return comments
+export const comments: QueryResolvers['comments'] = ({ websiteId }) => {
+  return Repository.findCommentsByWebsiteId(websiteId, context)
 }
 
 export const comment: QueryResolvers['comment'] = ({ id }) => {
-  return db.comment.findUnique({
-    where: { id },
-  })
+  return Repository.findCommentById(id)
+}
+
+export const publicComments: QueryResolvers['publicComments'] = ({ link }) => {
+  return Repository.findCommentsByLink(link)
 }
 
 export const createComment: MutationResolvers['createComment'] = ({
   input,
 }) => {
-  return db.comment.create({
-    data: input,
-  })
+  return Repository.createComment(input)
 }
 
 export const updateComment: MutationResolvers['updateComment'] = ({
   id,
   input,
 }) => {
-  return db.comment.update({
-    data: input,
-    where: { id },
-  })
+  return Repository.updateByCommentId(id, input)
 }
 
 export const deleteComment: MutationResolvers['deleteComment'] = ({ id }) => {
-  return db.comment.delete({
-    where: { id },
-  })
+  return Repository.deleteByCommentId(id)
 }
 
 export const publicCreateComment: MutationResolvers['publicCreateComment'] =
@@ -67,10 +45,8 @@ export const publicCreateComment: MutationResolvers['publicCreateComment'] =
       hostname = `${hostname}:${url.port}`
     }
 
-    const website = await db.website.findFirst({
-      where: {
-        domain: hostname,
-      },
+    const website = await WebsiteRepository.findWebsiteBy({
+      domain: hostname,
     })
 
     if (!website) {
@@ -79,42 +55,38 @@ export const publicCreateComment: MutationResolvers['publicCreateComment'] =
       )
     }
 
-    const author = await db.author.findFirst({
-      where: {
-        email: input.authorEmail,
-        websiteId: website.id,
-      },
+    const author = await AuthorRepository.findAuthorBy({
+      email: input.authorEmail,
+      websiteId: website.id,
     })
 
     // When author doesn't exist for this domain, then create comment and create a new author.
     if (!author) {
-      return db.comment.create({
-        data: {
-          websiteId: website.id,
-          link: input.link,
-          message: input.comment,
-          ...(input.parentCommentId && { parentId: input.parentCommentId }),
-          authors: {
-            create: [
-              {
-                createdBy: input.authorEmail ?? input.authorName,
-                createdAt: new Date(),
-                author: {
-                  create: {
-                    name: input.authorName,
-                    ...(input.authorEmail && { email: input.authorEmail }),
-                    websiteId: website.id,
-                  },
+      return Repository.createComment({
+        websiteId: website.id,
+        link: input.link,
+        message: input.comment,
+        ...(input.parentCommentId && { parentId: input.parentCommentId }),
+        authors: {
+          create: [
+            {
+              createdBy: input.authorEmail ?? input.authorName,
+              createdAt: new Date(),
+              author: {
+                create: {
+                  name: input.authorName,
+                  ...(input.authorEmail && { email: input.authorEmail }),
+                  websiteId: website.id,
                 },
               },
-            ],
-          },
+            },
+          ],
         },
       })
     }
 
     // Otherwise, we will just connect the comment to the existing author.
-    return db.comment.create({
+    return Repository.createComment({
       data: {
         websiteId: website.id,
         link: input.link,

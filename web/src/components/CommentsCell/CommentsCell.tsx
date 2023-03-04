@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   Alert,
   AlertIcon,
@@ -6,14 +8,17 @@ import {
   Card,
   CardHeader,
   CardBody,
+  CardFooter,
+  Divider,
+  FormControl,
+  FormLabel,
+  Switch,
   Heading,
   Text,
 } from '@chakra-ui/react'
 import type { CommentsByWebsiteId } from 'types/graphql'
 
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-
-import { timeTag } from 'src/lib/formatters'
+import { CellSuccessProps, CellFailureProps, useMutation } from '@redwoodjs/web'
 
 export const QUERY = gql`
   query CommentsByWebsiteId($websiteId: Int!) {
@@ -30,6 +35,18 @@ export const QUERY = gql`
           email
         }
       }
+    }
+  }
+`
+const UPDATE_COMMENT_MUTATION = gql`
+  mutation UpdateComment($id: Int!, $input: UpdateCommentInput!) {
+    updateComment(id: $id, input: $input) {
+      id
+      link
+      message
+      isPublished
+      isSpam
+      createdAt
     }
   }
 `
@@ -51,6 +68,8 @@ export const Success = ({
   return (
     <Box>
       {comments.map((comment) => {
+        const createdDate = new Date(comment?.createdAt)
+
         return (
           <Card key={`comment-${comment.id}`} variant="outline" mb={2}>
             <CardHeader>
@@ -61,14 +80,59 @@ export const Success = ({
                 From: {comment.authors[0].author.name} &#8226; Email:{' '}
                 {comment.authors[0].author.email ?? 'N/A'}
               </Text>
-              <Text fontSize="sm">{timeTag(comment.createdAt)}</Text>
+              <Text fontSize="sm">
+                Created at{' '}
+                {`${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}`.trim()}
+              </Text>
             </CardHeader>
-            <CardBody pt={0}>
-              <Text>{comment.message}</Text>
+            <Divider />
+            <CardBody>
+              <Text sx={{ whiteSpace: 'pre-wrap' }}>{comment.message}</Text>
             </CardBody>
+            <Divider />
+            <CardFooter pt={0}>
+              <CommandRow
+                commentId={comment.id}
+                isCommentPublished={comment.isPublished}
+              />
+            </CardFooter>
           </Card>
         )
       })}
     </Box>
+  )
+}
+
+interface CommandRowProps {
+  commentId: number
+  isCommentPublished: boolean
+}
+
+const CommandRow = ({ commentId, isCommentPublished }: CommandRowProps) => {
+  const [isPublished, setIsPublished] = useState(isCommentPublished)
+
+  const [updateComment] = useMutation(UPDATE_COMMENT_MUTATION, {
+    onCompleted: (data) => {
+      setIsPublished(data?.updateComment?.isPublished)
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+    refetchQueries: ['CommentsByWebsiteId'],
+  })
+
+  const handlePublishedChange = (e) => {
+    updateComment({
+      variables: { id: commentId, input: { isPublished: e.target.checked } },
+    })
+  }
+
+  return (
+    <FormControl display="flex" alignItems="center">
+      <FormLabel htmlFor="isPublish" mb="0" fontWeight="bold">
+        Publish this comment?
+      </FormLabel>
+      <Switch isChecked={isPublished} onChange={handlePublishedChange} />
+    </FormControl>
   )
 }
