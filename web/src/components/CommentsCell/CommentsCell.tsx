@@ -30,7 +30,7 @@ import { useAuth } from 'src/auth'
 import { timeTag } from 'src/lib/formatters'
 
 export const QUERY = gql`
-  query CommentsByWebsiteId($websiteId: Int!) {
+  query CommentsByWebsiteId($websiteId: ID!) {
     comments(websiteId: $websiteId) {
       id
       link
@@ -49,7 +49,7 @@ export const QUERY = gql`
   }
 `
 const UPDATE_COMMENT_MUTATION = gql`
-  mutation UpdateComment($id: Int!, $input: UpdateCommentInput!) {
+  mutation UpdateComment($id: ID!, $input: UpdateCommentInput!) {
     updateComment(id: $id, input: $input) {
       id
       link
@@ -75,11 +75,11 @@ const CREATE_REPLY_COMMENT = gql`
 `
 
 interface CommandRowProps {
-  commentId?: number
+  commentId?: string
   isCommentPublished?: boolean
   link?: string
   currentUserId?: number
-  websiteId?: number
+  websiteId?: string
 }
 
 export const Loading = () => <div>Loading...</div>

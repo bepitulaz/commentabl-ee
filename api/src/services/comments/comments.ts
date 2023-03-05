@@ -21,7 +21,7 @@ export const publicComments: QueryResolvers['publicComments'] = ({ link }) => {
 export const createComment: MutationResolvers['createComment'] = ({
   input,
 }) => {
-  return Repository.createComment(input)
+  return Repository.writeComment(input)
 }
 
 export const updateComment: MutationResolvers['updateComment'] = ({
@@ -62,7 +62,7 @@ export const publicCreateComment: MutationResolvers['publicCreateComment'] =
 
     // When author doesn't exist for this domain, then create comment and create a new author.
     if (!author) {
-      return Repository.createComment({
+      return Repository.writeComment({
         websiteId: website.id,
         link: input.link,
         message: input.comment,
@@ -86,7 +86,7 @@ export const publicCreateComment: MutationResolvers['publicCreateComment'] =
     }
 
     // Otherwise, we will just connect the comment to the existing author.
-    return Repository.createComment({
+    return Repository.writeComment({
       data: {
         websiteId: website.id,
         link: input.link,

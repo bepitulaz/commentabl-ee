@@ -1,18 +1,16 @@
-import { UpdateCommentInput } from 'types/graphql'
-
 import { GlobalContext } from '@redwoodjs/graphql-server'
 
-import { db } from 'src/lib/db'
+import { db, dbID } from 'src/lib/db'
 import { DBRecordError } from 'src/lib/errorHelper'
 
 export async function findCommentsByWebsiteId(
-  websiteId: number,
+  websiteId: string,
   context: GlobalContext
 ) {
   const comments = await db.comment.findMany({
     where: {
       website: {
-        id: websiteId,
+        id: dbID(websiteId),
         ownerId: context.currentUser.id,
       },
       parentId: null,
@@ -58,34 +56,37 @@ export function findCommentsByLink(link: string) {
   })
 }
 
-export function findCommentById(commentId: number) {
+export function findCommentById(commentId: string) {
   return db.comment.findUnique({
-    where: { id: commentId },
+    where: { id: dbID(commentId) },
   })
 }
 
-export function createComment(data) {
-  const { input } = data
+export function writeComment(input) {
+  const dataInput = {
+    ...input,
+    ...('websiteId' in input && { websiteId: dbID(input.websiteId) }),
+    ...('parentId' in input && { parentId: dbID(input.parentId) }),
+    ...('createdBy' in input && { createdBy: dbID(input.createdBy) }),
+  }
+
   return db.comment.create({
-    data: { ...input },
+    data: { ...dataInput },
   })
 }
 
-export function updateByCommentId(
-  commentId: number,
-  input: UpdateCommentInput
-) {
+export function updateByCommentId(commentId: string, input) {
   return db.comment.update({
     data: {
       ...input,
       updatedAt: new Date(),
     },
-    where: { id: commentId },
+    where: { id: dbID(commentId) },
   })
 }
 
-export function deleteByCommentId(commentId: number) {
+export function deleteByCommentId(commentId: string) {
   return db.comment.delete({
-    where: { id: commentId },
+    where: { id: dbID(commentId) },
   })
 }

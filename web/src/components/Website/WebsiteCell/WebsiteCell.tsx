@@ -6,7 +6,7 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import Website from 'src/components/Website/Website'
 
 export const QUERY = gql`
-  query FindWebsiteById($id: Int!) {
+  query FindWebsiteById($id: ID!) {
     website: website(id: $id) {
       id
       domain

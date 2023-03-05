@@ -4,12 +4,12 @@ export const schema = gql`
   }
 
   type Comment {
-    id: Int!
+    id: ID!
     website: Website!
-    websiteId: Int!
+    websiteId: ID!
     link: String!
     message: String!
-    parentId: Int
+    parentId: ID
     isSpam: Boolean!
     isPublished: Boolean!
     isDeleted: Boolean!
@@ -19,8 +19,8 @@ export const schema = gql`
   }
 
   type Query {
-    comments(websiteId: Int!): [Comment!]! @requireAuth
-    comment(id: Int!): Comment @requireAuth
+    comments(websiteId: ID!): [Comment!]! @requireAuth
+    comment(id: ID!): Comment @requireAuth
     """
     The query that will be called by web form
     """
@@ -28,21 +28,21 @@ export const schema = gql`
   }
 
   input CreateCommentInput {
-    websiteId: Int!
+    websiteId: ID!
     link: String!
     message: String!
-    parentId: Int
+    parentId: ID
     isSpam: Boolean!
     isPublished: Boolean!
     isDeleted: Boolean!
-    createdBy: Int
+    createdBy: ID
   }
 
   input UpdateCommentInput {
-    websiteId: Int
+    websiteId: ID
     link: String
     message: String
-    parentId: Int
+    parentId: ID
     isSpam: Boolean
     isPublished: Boolean
     isDeleted: Boolean
@@ -50,7 +50,7 @@ export const schema = gql`
 
   input PublicCreateCommentInput {
     link: String!
-    parentCommentId: Int
+    parentCommentId: ID
     authorName: String!
     authorEmail: String
     comment: String!
@@ -58,8 +58,8 @@ export const schema = gql`
 
   type Mutation {
     createComment(input: CreateCommentInput!): Comment! @requireAuth
-    updateComment(id: Int!, input: UpdateCommentInput!): Comment! @requireAuth
-    deleteComment(id: Int!): Comment! @requireAuth
+    updateComment(id: ID!, input: UpdateCommentInput!): Comment! @requireAuth
+    deleteComment(id: ID!): Comment! @requireAuth
     """
     The mutation that will be called by web form
     """

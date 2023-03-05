@@ -1,5 +1,7 @@
 import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
+import { dbID } from 'src/lib/db'
+
 import * as Repository from './repository'
 
 export const websites: QueryResolvers['websites'] = () => {
@@ -7,7 +9,8 @@ export const websites: QueryResolvers['websites'] = () => {
 }
 
 export const website: QueryResolvers['website'] = async ({ id }) => {
-  return Repository.findWebsiteBy({ id })
+  const websiteId = dbID(id)
+  return Repository.findWebsiteBy({ id: websiteId })
 }
 
 export const createWebsite: MutationResolvers['createWebsite'] = ({

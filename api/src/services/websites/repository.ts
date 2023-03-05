@@ -1,6 +1,6 @@
 import { GlobalContext } from '@redwoodjs/graphql-server'
 
-import { db } from 'src/lib/db'
+import { db, dbID } from 'src/lib/db'
 import { DBRecordError } from 'src/lib/errorHelper'
 
 export function findWebsites(context: GlobalContext) {
@@ -32,18 +32,18 @@ export function createWebsite(input, context: GlobalContext) {
   })
 }
 
-export function updateByWebsiteId(websiteId: number, input) {
+export function updateByWebsiteId(websiteId: string, input) {
   return db.website.update({
     data: {
       ...input,
       updatedAt: new Date(),
     },
-    where: { id: websiteId },
+    where: { id: dbID(websiteId) },
   })
 }
 
-export function deleteByWebsiteId(websiteId: number) {
+export function deleteByWebsiteId(websiteId: string) {
   return db.website.delete({
-    where: { id: websiteId },
+    where: { id: dbID(websiteId) },
   })
 }

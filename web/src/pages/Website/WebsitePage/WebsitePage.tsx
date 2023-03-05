@@ -16,7 +16,7 @@ type WebsitePageProps = {
 }
 
 const WEBSITE_QUERY = gql`
-  query WebsitePageById($id: Int!) {
+  query WebsitePageById($id: ID!) {
     website(id: $id) {
       domain
     }

@@ -22,7 +22,7 @@ import { toast } from '@redwoodjs/web/toast'
 import WebsiteForm from 'src/components/Website/WebsiteForm'
 
 export const QUERY = gql`
-  query EditWebsiteById($id: Int!) {
+  query EditWebsiteById($id: ID!) {
     website: website(id: $id) {
       id
       domain
@@ -32,7 +32,7 @@ export const QUERY = gql`
   }
 `
 const UPDATE_WEBSITE_MUTATION = gql`
-  mutation UpdateWebsiteMutation($id: Int!, $input: UpdateWebsiteInput!) {
+  mutation UpdateWebsiteMutation($id: ID!, $input: UpdateWebsiteInput!) {
     updateWebsite(id: $id, input: $input) {
       id
       domain
@@ -43,7 +43,7 @@ const UPDATE_WEBSITE_MUTATION = gql`
 `
 
 const DELETE_WEBSITE_MUTATION = gql`
-  mutation DeleteWebsiteMutation($id: Int!) {
+  mutation DeleteWebsiteMutation($id: ID!) {
     deleteWebsite(id: $id) {
       id
     }

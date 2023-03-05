@@ -1,6 +1,6 @@
 export const schema = gql`
   type Website {
-    id: Int!
+    id: ID!
     domain: String!
     createdAt: DateTime!
     updatedAt: DateTime
@@ -8,7 +8,7 @@ export const schema = gql`
 
   type Query {
     websites: [Website!]! @requireAuth
-    website(id: Int!): Website @requireAuth
+    website(id: ID!): Website @requireAuth
   }
 
   input CreateWebsiteInput {
@@ -21,7 +21,7 @@ export const schema = gql`
 
   type Mutation {
     createWebsite(input: CreateWebsiteInput!): Website! @requireAuth
-    updateWebsite(id: Int!, input: UpdateWebsiteInput!): Website! @requireAuth
-    deleteWebsite(id: Int!): Website! @requireAuth
+    updateWebsite(id: ID!, input: UpdateWebsiteInput!): Website! @requireAuth
+    deleteWebsite(id: ID!): Website! @requireAuth
   }
 `
