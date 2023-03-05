@@ -68,7 +68,7 @@ export function findCommentsByParentId(parentId: string) {
       parentId: dbID(parentId),
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: 'asc',
     },
     include: {
       authors: {

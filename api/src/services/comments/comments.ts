@@ -26,6 +26,17 @@ export const CommentWithReplies = {
   },
 }
 
+export const Comment = {
+  createdBy: (_args, { root }) => {
+    if (!root?.createdBy) {
+      return null
+    }
+
+    const ownerId = root.createdBy.toString()
+    return AuthorRepository.findOwnerDetailById(ownerId)
+  },
+}
+
 export const comment = ({ id }) => {
   return Repository.findCommentById(id)
 }

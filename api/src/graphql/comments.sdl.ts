@@ -15,6 +15,7 @@ export const schema = gql`
     isDeleted: Boolean!
     createdAt: DateTime!
     updatedAt: DateTime
+    createdBy: Author
     authors: [CommentsAuthors]
   }
 

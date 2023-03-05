@@ -19,7 +19,7 @@ import {
   useDisclosure,
   Textarea,
   FormErrorMessage,
-  HStack,
+  Stack,
 } from '@chakra-ui/react'
 import Avatar from 'react-avatar'
 import { useForm } from 'react-hook-form'
@@ -56,6 +56,10 @@ export const QUERY = gql`
           isPublished
           isSpam
           createdAt
+          createdBy {
+            id
+            name
+          }
           websiteId
           parentId
           authors {
@@ -136,18 +140,6 @@ export const Success = ({ comments }) => {
               <Text sx={{ whiteSpace: 'pre-wrap' }}>{parent.message}</Text>
             </CardBody>
             <Divider />
-            {replies.map((reply) => {
-              console.log(reply?.authors)
-              return (
-                <ReplyRow
-                  key={`reply-${reply.id}`}
-                  commentId={reply.id}
-                  authorName={reply?.authors?.[0]?.author?.name}
-                  authorEmail={reply?.authors?.[0]?.author?.email}
-                  {...reply}
-                />
-              )
-            })}
             <Box px={5} pb={5}>
               <CommandRow
                 commentId={parent.id}
@@ -160,6 +152,19 @@ export const Success = ({ comments }) => {
                 currentUserId={currentUser.id}
                 websiteId={parent.websiteId}
               />
+            </Box>
+            <Box px={5}>
+              {replies.map((reply) => {
+                return (
+                  <ReplyRow
+                    key={`reply-${reply.id}`}
+                    commentId={reply.id}
+                    authorName={reply?.authors?.[0]?.author?.name}
+                    authorEmail={reply?.authors?.[0]?.author?.email}
+                    {...reply}
+                  />
+                )
+              })}
             </Box>
           </Card>
         )
@@ -200,19 +205,35 @@ const CommandRow = ({ commentId, isCommentPublished }) => {
 }
 
 const ReplyRow = ({
-  commentId,
-  parentId,
-  message,
-  createdAt,
   authorName,
   authorEmail,
+  createdBy,
+  createdAt,
+  message,
 }) => {
+  const name = authorName || createdBy?.name
+  const email = authorEmail || createdBy?.email
+  const createdDate = new Date(createdAt)
+
   return (
-    <Box>
-      <HStack>
-        <Avatar name={authorName} email={authorEmail} size="40px" />
-      </HStack>
-    </Box>
+    <>
+      <Box py={3}>
+        <Flex gap={2}>
+          <Avatar name={name} email={email} size="40px" round />
+          <Stack>
+            <Box>
+              <Text fontWeight="bold">{name}</Text>
+              <Text fontSize="sm">
+                Posted on{' '}
+                {`${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}`.trim()}
+              </Text>
+            </Box>
+            <Text px={3} sx={{ whiteSpace: 'pre-wrap' }}>{`${message}`}</Text>
+          </Stack>
+        </Flex>
+      </Box>
+      <Divider />
+    </>
   )
 }
 

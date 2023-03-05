@@ -37,12 +37,29 @@ export const PUBLIC_COMMENTS = gql`
             }
           }
           createdAt
+          createdBy {
+            name
+            email
+          }
         }
       }
       pagination {
         currentPage
         limit
       }
+    }
+  }
+`
+
+export const CREATE_REPLY_COMMENT = gql`
+  mutation CreateComment($input: CreateCommentInput!) {
+    createComment(input: $input) {
+      id
+      link
+      message
+      isPublished
+      isSpam
+      createdAt
     }
   }
 `
