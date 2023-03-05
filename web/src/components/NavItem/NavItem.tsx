@@ -1,17 +1,8 @@
-import { ReactText } from 'react'
-
-import { Flex, Icon, FlexProps } from '@chakra-ui/react'
-import { IconType } from 'react-icons'
+import { Flex, Icon } from '@chakra-ui/react'
 
 import { Link } from '@redwoodjs/router'
 
-interface NavItemProps extends FlexProps {
-  icon: IconType
-  href: string
-  children: ReactText
-}
-
-const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, href, ...rest }) => {
   return (
     <Link to={href} style={{ textDecoration: 'none' }}>
       <Flex

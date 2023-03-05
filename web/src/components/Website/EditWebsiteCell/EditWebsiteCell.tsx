@@ -8,14 +8,8 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react'
-import type {
-  EditWebsiteById,
-  UpdateWebsiteInput,
-  DeleteWebsiteMutationVariables,
-} from 'types/graphql'
 
 import { navigate, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -52,11 +46,11 @@ const DELETE_WEBSITE_MUTATION = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Failure = ({ error }: CellFailureProps) => (
+export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ website }: CellSuccessProps<EditWebsiteById>) => {
+export const Success = ({ website }) => {
   const [updateWebsite, { loading, error }] = useMutation(
     UPDATE_WEBSITE_MUTATION,
     {
@@ -80,19 +74,13 @@ export const Success = ({ website }: CellSuccessProps<EditWebsiteById>) => {
     },
   })
 
-  const onDeleteClick = (
-    id: DeleteWebsiteMutationVariables['id'],
-    domain: string
-  ) => {
+  const onDeleteClick = (id, domain: string) => {
     if (confirm(`Are you sure you want to delete website: ${domain}?`)) {
       deleteWebsite({ variables: { id } })
     }
   }
 
-  const onSave = (
-    input: UpdateWebsiteInput,
-    id: EditWebsiteById['website']['id']
-  ) => {
+  const onSave = (input, id) => {
     updateWebsite({ variables: { id, input } })
   }
 

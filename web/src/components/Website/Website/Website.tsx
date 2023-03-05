@@ -1,8 +1,3 @@
-import type {
-  DeleteWebsiteMutationVariables,
-  FindWebsiteById,
-} from 'types/graphql'
-
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -17,11 +12,7 @@ const DELETE_WEBSITE_MUTATION = gql`
   }
 `
 
-interface Props {
-  website: NonNullable<FindWebsiteById['website']>
-}
-
-const Website = ({ website }: Props) => {
+const Website = ({ website }) => {
   const [deleteWebsite] = useMutation(DELETE_WEBSITE_MUTATION, {
     onCompleted: () => {
       toast.success('Website deleted')
@@ -32,7 +23,7 @@ const Website = ({ website }: Props) => {
     },
   })
 
-  const onDeleteClick = (id: DeleteWebsiteMutationVariables['id']) => {
+  const onDeleteClick = (id) => {
     if (confirm('Are you sure you want to delete website ' + id + '?')) {
       deleteWebsite({ variables: { id } })
     }

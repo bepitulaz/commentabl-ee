@@ -9,13 +9,12 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { FiEye, FiSettings } from 'react-icons/fi'
-import type { FindWebsites } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import { timeTag } from 'src/lib/formatters'
 
-const WebsitesList = ({ websites }: FindWebsites) => {
+const WebsitesList = ({ websites }) => {
   return (
     <SimpleGrid columns={{ sm: 1, md: 2, lg: 2, xl: 3, '2xl': 4 }} gap={3}>
       {websites.map((website) => (

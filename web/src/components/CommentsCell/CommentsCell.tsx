@@ -24,9 +24,8 @@ import {
 import Avatar from 'react-avatar'
 import { useForm } from 'react-hook-form'
 import { FiCornerLeftUp } from 'react-icons/fi'
-import type { CommentsByWebsiteId } from 'types/graphql'
 
-import { CellSuccessProps, CellFailureProps, useMutation } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 import { timeTag } from 'src/lib/formatters'
@@ -100,37 +99,18 @@ const CREATE_REPLY_COMMENT = gql`
   }
 `
 
-interface CommandRowProps {
-  commentId?: string
-  isCommentPublished?: boolean
-  link?: string
-  currentUserId?: number
-  websiteId?: string
-}
-
-interface ReplyProps {
-  commentId: string
-  parentId?: string
-  message: string
-  createdAt: string
-  authorName: string
-  authorEmail?: string
-}
-
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }: CellFailureProps) => (
+export const Failure = ({ error }) => (
   <Alert status="error">
     <AlertIcon />
     <AlertDescription>Error: {error?.message}</AlertDescription>
   </Alert>
 )
 
-export const Success = ({
-  comments,
-}: CellSuccessProps<CommentsByWebsiteId>) => {
+export const Success = ({ comments }) => {
   const { currentUser } = useAuth()
 
   return (
@@ -188,7 +168,7 @@ export const Success = ({
   )
 }
 
-const CommandRow = ({ commentId, isCommentPublished }: CommandRowProps) => {
+const CommandRow = ({ commentId, isCommentPublished }) => {
   const [isPublished, setIsPublished] = useState(isCommentPublished)
 
   const [updateComment] = useMutation(UPDATE_COMMENT_MUTATION, {
@@ -226,8 +206,7 @@ const ReplyRow = ({
   createdAt,
   authorName,
   authorEmail,
-}: ReplyProps) => {
-  console.log(authorName)
+}) => {
   return (
     <Box>
       <HStack>
@@ -243,7 +222,7 @@ const ReplyBox = ({
   isCommentPublished,
   currentUserId,
   websiteId,
-}: CommandRowProps) => {
+}) => {
   const {
     register,
     handleSubmit,

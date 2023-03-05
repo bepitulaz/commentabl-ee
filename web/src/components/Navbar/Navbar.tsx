@@ -6,7 +6,6 @@ import {
   VStack,
   useColorModeValue,
   Text,
-  FlexProps,
   Menu,
   MenuButton,
   MenuDivider,
@@ -18,11 +17,7 @@ import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi'
 
 import { useAuth } from 'src/auth'
 
-interface NavbarProps extends FlexProps {
-  onOpen: () => void
-}
-
-const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
+const Navbar = ({ onOpen, ...rest }) => {
   const { currentUser, logOut } = useAuth()
 
   return (

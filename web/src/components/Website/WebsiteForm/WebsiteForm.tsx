@@ -9,22 +9,11 @@ import {
   FormLabel,
   Heading,
 } from '@chakra-ui/react'
-import type { EditWebsiteById, UpdateWebsiteInput } from 'types/graphql'
 
 import { Form, FormError, FieldError, TextField } from '@redwoodjs/forms'
-import type { RWGqlError } from '@redwoodjs/forms'
 
-type FormWebsite = NonNullable<EditWebsiteById['website']>
-
-interface WebsiteFormProps {
-  website?: EditWebsiteById['website']
-  onSave: (data: UpdateWebsiteInput, id?: FormWebsite['id']) => void
-  error: RWGqlError
-  loading: boolean
-}
-
-const WebsiteForm = (props: WebsiteFormProps) => {
-  const onSubmit = (data: FormWebsite) => {
+const WebsiteForm = (props) => {
+  const onSubmit = (data) => {
     props.onSave(data, props?.website?.id)
   }
 
@@ -36,7 +25,7 @@ const WebsiteForm = (props: WebsiteFormProps) => {
             General information
           </Heading>
         </CardHeader>
-        <Form<FormWebsite> onSubmit={onSubmit} error={props.error}>
+        <Form onSubmit={onSubmit} error={props.error}>
           <CardBody pt={0}>
             <FormError
               error={props.error}

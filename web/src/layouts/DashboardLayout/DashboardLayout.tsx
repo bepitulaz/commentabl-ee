@@ -9,11 +9,7 @@ import {
 import Navbar from 'src/components/Navbar/Navbar'
 import SidebarContent from 'src/components/SidebarContent/SidebarContent'
 
-type DashboardLayoutProps = {
-  children?: React.ReactNode
-}
-
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function DashboardLayout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>

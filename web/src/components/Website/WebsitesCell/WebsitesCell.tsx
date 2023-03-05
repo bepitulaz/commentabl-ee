@@ -1,7 +1,4 @@
-import type { FindWebsites } from 'types/graphql'
-
 import { Link, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import Websites from 'src/components/Website/Websites'
 
@@ -29,10 +26,10 @@ export const Empty = () => {
   )
 }
 
-export const Failure = ({ error }: CellFailureProps) => (
+export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ websites }: CellSuccessProps<FindWebsites>) => {
+export const Success = ({ websites }) => {
   return <Websites websites={websites} />
 }

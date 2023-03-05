@@ -1,15 +1,9 @@
 import { Box, Button } from '@chakra-ui/react'
 import { FiGlobe, FiPlus } from 'react-icons/fi'
-import type { SidebarWebsites } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import NavItem from '../NavItem/NavItem'
-
-interface NavItemProps extends CellSuccessProps<FindWebsites> {
-  onClose: () => void
-}
 
 export const QUERY = gql`
   query SidebarWebsites {
@@ -32,11 +26,11 @@ export const Empty = () => (
   </Box>
 )
 
-export const Failure = ({ error }: CellFailureProps) => (
+export const Failure = ({ error }) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
-export const Success = ({ websites, onClose }: NavItemProps) => {
+export const Success = ({ websites, onClose }) => {
   return websites.map((website) => (
     <NavItem
       key={website.domain}

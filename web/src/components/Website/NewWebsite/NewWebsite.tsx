@@ -1,5 +1,4 @@
 import { Box, Flex, Heading } from '@chakra-ui/react'
-import type { CreateWebsiteInput } from 'types/graphql'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -29,7 +28,7 @@ const NewWebsite = () => {
     }
   )
 
-  const onSave = (input: CreateWebsiteInput) => {
+  const onSave = (input) => {
     createWebsite({ variables: { input } })
   }
 

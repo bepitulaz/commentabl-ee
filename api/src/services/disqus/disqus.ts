@@ -2,7 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import { XMLParser } from 'fast-xml-parser'
-import type { QueryResolvers } from 'types/graphql'
 
 function readDisqusXML() {
   const data = fs.readFileSync(
@@ -13,7 +12,7 @@ function readDisqusXML() {
   return buffer.toString()
 }
 
-export const readXML: QueryResolvers['readXML'] = () => {
+export const readXML = () => {
   const parser = new XMLParser()
 
   const xmlData = readDisqusXML()

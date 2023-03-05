@@ -4,7 +4,6 @@ import {
   Flex,
   useColorModeValue,
   Text,
-  BoxProps,
   Heading,
 } from '@chakra-ui/react'
 import { FiGrid, FiGlobe } from 'react-icons/fi'
@@ -14,11 +13,7 @@ import { routes } from '@redwoodjs/router'
 import NavItem from 'src/components/NavItem/NavItem'
 import SidebarWebsiteCell from 'src/components/SidebarWebsiteCell/SidebarWebsiteCell'
 
-interface SidebarProps extends BoxProps {
-  onClose: () => void
-}
-
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
