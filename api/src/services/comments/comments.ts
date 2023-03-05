@@ -1,8 +1,4 @@
-import type {
-  QueryResolvers,
-  MutationResolvers,
-  ResolversTypes,
-} from 'types/graphql'
+import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
 import { DBRecordError } from 'src/lib/errorHelper'
 import * as AuthorRepository from 'src/services/authors/repository'
@@ -10,9 +6,12 @@ import * as WebsiteRepository from 'src/services/websites/repository'
 
 import * as Repository from './repository'
 
-export const comments: QueryResolvers['comments'] = async ({ websiteId }) => {
+export const comments = async ({ websiteId }) => {
   const comments = await Repository.findCommentsByWebsiteId(websiteId, context)
-  const mappedComments = comments?.map((comment) => ({ parent: comment }))
+  const mappedComments = comments?.map((comment) => ({
+    parent: comment,
+    replies: [],
+  }))
   return {
     edges: mappedComments,
     pagination: {
@@ -22,7 +21,7 @@ export const comments: QueryResolvers['comments'] = async ({ websiteId }) => {
   }
 }
 
-export const CommentWithReplies: ResolversTypes['CommentWithReplies'] = {
+export const CommentWithReplies = {
   replies: async (_args, { root: { parent } }) => {
     const parentId = parent.id.toString()
     return Repository.findCommentsByParentId(parentId)
@@ -33,11 +32,12 @@ export const comment: QueryResolvers['comment'] = ({ id }) => {
   return Repository.findCommentById(id)
 }
 
-export const publicComments: QueryResolvers['publicComments'] = async ({
-  link,
-}) => {
+export const publicComments = async ({ link }) => {
   const comments = await Repository.findCommentsByLink(link)
-  const mappedComments = comments?.map((comment) => ({ parent: comment }))
+  const mappedComments = comments?.map((comment) => ({
+    parent: comment,
+    replies: [],
+  }))
   return {
     edges: mappedComments,
     pagination: {

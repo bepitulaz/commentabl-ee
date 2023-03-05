@@ -19,7 +19,9 @@ import {
   useDisclosure,
   Textarea,
   FormErrorMessage,
+  HStack,
 } from '@chakra-ui/react'
+import Avatar from 'react-avatar'
 import { useForm } from 'react-hook-form'
 import { FiCornerLeftUp } from 'react-icons/fi'
 import type { CommentsByWebsiteId } from 'types/graphql'
@@ -56,6 +58,7 @@ export const QUERY = gql`
           isSpam
           createdAt
           websiteId
+          parentId
           authors {
             author {
               name
@@ -105,6 +108,15 @@ interface CommandRowProps {
   websiteId?: string
 }
 
+interface ReplyProps {
+  commentId: string
+  parentId?: string
+  message: string
+  createdAt: string
+  authorName: string
+  authorEmail?: string
+}
+
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
@@ -125,6 +137,7 @@ export const Success = ({
     <Box>
       {comments.edges.map((comment) => {
         const parent = comment.parent
+        const replies = comment.replies
 
         return (
           <Card key={`comment-${parent.id}`} variant="outline" mb={2}>
@@ -143,6 +156,18 @@ export const Success = ({
               <Text sx={{ whiteSpace: 'pre-wrap' }}>{parent.message}</Text>
             </CardBody>
             <Divider />
+            {replies.map((reply) => {
+              console.log(reply?.authors)
+              return (
+                <ReplyRow
+                  key={`reply-${reply.id}`}
+                  commentId={reply.id}
+                  authorName={reply?.authors?.[0]?.author?.name}
+                  authorEmail={reply?.authors?.[0]?.author?.email}
+                  {...reply}
+                />
+              )
+            })}
             <Box px={5} pb={5}>
               <CommandRow
                 commentId={parent.id}
@@ -191,6 +216,24 @@ const CommandRow = ({ commentId, isCommentPublished }: CommandRowProps) => {
         <Switch isChecked={isPublished} onChange={handlePublishedChange} />
       </Flex>
     </FormControl>
+  )
+}
+
+const ReplyRow = ({
+  commentId,
+  parentId,
+  message,
+  createdAt,
+  authorName,
+  authorEmail,
+}: ReplyProps) => {
+  console.log(authorName)
+  return (
+    <Box>
+      <HStack>
+        <Avatar name={authorName} email={authorEmail} size="40px" />
+      </HStack>
+    </Box>
   )
 }
 

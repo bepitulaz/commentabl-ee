@@ -24761,16 +24761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "react-icons@npm:4.7.1"
-  peerDependencies:
-    react: "*"
-  checksum: be1d82522feba668df7d6f4d1f6ea59f4d5aca58f761790a5e08fcef50ef27d563a9fe78d803576fa64910607172886d559f6ad1cd9c7857b683b4e16eb50eea
-  languageName: node
-  linkType: hard
-
-"react-icons@npm:^4.8.0":
+"react-icons@npm:^4.7.1, react-icons@npm:^4.8.0":
   version: 4.8.0
   resolution: "react-icons@npm:4.8.0"
   peerDependencies:

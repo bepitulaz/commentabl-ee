@@ -1,34 +1,34 @@
 export const schema = gql`
   type Author {
-    id: Int!
+    id: ID!
     name: String!
     email: String
     website: Website
-    websiteId: Int
+    websiteId: ID
     createdAt: DateTime!
     updatedAt: DateTime
   }
 
   type Query {
     authors: [Author!]! @requireAuth
-    author(id: Int!): Author @requireAuth
+    author(id: ID!): Author @requireAuth
   }
 
   input CreateAuthorInput {
     name: String!
     email: String
-    websiteId: Int!
+    websiteId: ID!
   }
 
   input UpdateAuthorInput {
     name: String
     email: String
-    websiteId: Int
+    websiteId: ID
   }
 
   type Mutation {
     createAuthor(input: CreateAuthorInput!): Author! @requireAuth
-    updateAuthor(id: Int!, input: UpdateAuthorInput!): Author! @requireAuth
-    deleteAuthor(id: Int!): Author! @requireAuth
+    updateAuthor(id: ID!, input: UpdateAuthorInput!): Author! @requireAuth
+    deleteAuthor(id: ID!): Author! @requireAuth
   }
 `
