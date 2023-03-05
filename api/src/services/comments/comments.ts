@@ -22,7 +22,11 @@ export const comments = async ({ websiteId }) => {
 export const CommentWithReplies = {
   replies: async (_args, { root: { parent } }) => {
     const parentId = parent.id.toString()
-    return Repository.findCommentsByParentId(parentId)
+    return Repository.findCommentsByParentId({ parentId })
+  },
+  publicReplies: async (_args, { root: { parent } }) => {
+    const parentId = parent.id.toString()
+    return Repository.findCommentsByParentId({ parentId, isPublished: true })
   },
 }
 

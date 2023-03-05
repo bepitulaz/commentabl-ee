@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {
   Box,
   Button,
@@ -8,20 +7,16 @@ import {
   Stack,
   Heading,
   useDisclosure,
-  FormControl,
-  FormLabel,
-  Textarea,
-  FormErrorMessage,
   Divider,
 } from '@chakra-ui/react'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { FiCornerLeftUp } from 'react-icons/fi'
-import { PUBLIC_COMMENTS, CREATE_REPLY_COMMENT } from './gql'
+import { PUBLIC_COMMENTS } from './gql'
 import Avatar from 'react-avatar'
-import { useForm } from 'react-hook-form'
+import CommentForm from './CommentForm'
 
 function CommentList({ link }) {
-  const { data, loading, error } = useQuery(PUBLIC_COMMENTS, {
+  const { data, loading } = useQuery(PUBLIC_COMMENTS, {
     variables: {
       link,
     },
@@ -57,7 +52,7 @@ function CommentRow({ comment }) {
   const authorName = comment?.parent?.authors?.[0]?.author?.name
   const authorEmail = comment?.parent?.authors?.[0]?.author?.email
   const createdDate = new Date(comment?.parent?.createdAt)
-  const replies = comment?.replies
+  const replies = comment?.publicReplies
 
   return (
     <>
@@ -76,7 +71,7 @@ function CommentRow({ comment }) {
               px={3}
               sx={{ whiteSpace: 'pre-wrap' }}
             >{`${comment?.parent?.message}`}</Text>
-            <ReplyBox commentId={comment.id} link={comment.link} />
+            <ReplyBox parentCommentId={comment.parent.id} />
           </Stack>
         </Flex>
         {replies.map((reply) => {
@@ -95,44 +90,11 @@ function CommentRow({ comment }) {
   )
 }
 
-function ReplyBox({ commentId, link }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-  } = useForm()
+function ReplyBox({ parentCommentId }) {
   const { getDisclosureProps, getButtonProps } = useDisclosure()
-
-  const [createComment] = useMutation(CREATE_REPLY_COMMENT, {
-    onError: (error) => {
-      console.error(error)
-    },
-    refetchQueries: ['publicComments'],
-  })
 
   const buttonProps = getButtonProps()
   const disclosureProps = getDisclosureProps()
-
-  const onSubmit = (data) => {
-    const input = {
-      link,
-      parentId: commentId,
-      message: data.comment,
-    }
-
-    createComment({
-      variables: {
-        input,
-      },
-    })
-  }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
 
   return (
     <>
@@ -143,23 +105,9 @@ function ReplyBox({ commentId, link }) {
           </Flex>
         </Button>
       </Box>
-      <form onSubmit={handleSubmit(onSubmit)} {...disclosureProps}>
-        <FormControl py={1} isInvalid={'comment' in errors}>
-          <FormLabel>Your comment</FormLabel>
-          <Textarea
-            placeholder="What's on your mind?"
-            {...register('comment', {
-              required: "Don't forget to write your comment",
-            })}
-          />
-          <FormErrorMessage>{errors?.comment?.message}</FormErrorMessage>
-        </FormControl>
-        <Box py={2}>
-          <Button type="submit" colorScheme="teal">
-            Send my reply
-          </Button>
-        </Box>
-      </form>
+      <Box {...disclosureProps}>
+        <CommentForm parentCommentId={parentCommentId} />
+      </Box>
     </>
   )
 }

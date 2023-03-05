@@ -25,7 +25,7 @@ export const PUBLIC_COMMENTS = gql`
           }
           createdAt
         }
-        replies {
+        publicReplies {
           id
           link
           message
@@ -47,19 +47,6 @@ export const PUBLIC_COMMENTS = gql`
         currentPage
         limit
       }
-    }
-  }
-`
-
-export const CREATE_REPLY_COMMENT = gql`
-  mutation CreateComment($input: CreateCommentInput!) {
-    createComment(input: $input) {
-      id
-      link
-      message
-      isPublished
-      isSpam
-      createdAt
     }
   }
 `

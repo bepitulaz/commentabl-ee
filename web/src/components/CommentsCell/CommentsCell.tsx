@@ -124,7 +124,7 @@ export const Success = ({ comments }) => {
         const replies = comment.replies
 
         return (
-          <Card key={`comment-${parent.id}`} variant="outline" mb={2}>
+          <Card key={`comment-${parent.id}`} variant="outline" mb={2} pb={5}>
             <CardHeader>
               <Heading as="h5" size="sm">
                 {parent.link}
@@ -153,15 +153,18 @@ export const Success = ({ comments }) => {
                 websiteId={parent.websiteId}
               />
             </Box>
-            <Box px={5}>
+            <Box>
               {replies.map((reply) => {
                 return (
                   <ReplyRow
                     key={`reply-${reply.id}`}
-                    commentId={reply.id}
+                    replyCommentId={reply.id}
                     authorName={reply?.authors?.[0]?.author?.name}
                     authorEmail={reply?.authors?.[0]?.author?.email}
-                    {...reply}
+                    isPublished={reply?.isPublished}
+                    message={reply?.message}
+                    createdBy={reply?.createdBy}
+                    createdAt={reply?.createdAt}
                   />
                 )
               })}
@@ -205,20 +208,22 @@ const CommandRow = ({ commentId, isCommentPublished }) => {
 }
 
 const ReplyRow = ({
+  replyCommentId,
   authorName,
   authorEmail,
   createdBy,
   createdAt,
   message,
+  isPublished,
 }) => {
   const name = authorName || createdBy?.name
   const email = authorEmail || createdBy?.email
   const createdDate = new Date(createdAt)
 
   return (
-    <>
-      <Box py={3}>
-        <Flex gap={2}>
+    <Box pl={5}>
+      <Box py={3} backgroundColor={isPublished ? 'none' : 'gray.100'}>
+        <Flex gap={2} pl={2}>
           <Avatar name={name} email={email} size="40px" round />
           <Stack>
             <Box>
@@ -231,9 +236,17 @@ const ReplyRow = ({
             <Text px={3} sx={{ whiteSpace: 'pre-wrap' }}>{`${message}`}</Text>
           </Stack>
         </Flex>
+        {authorName && (
+          <Box pl={2}>
+            <CommandRow
+              commentId={replyCommentId}
+              isCommentPublished={isPublished}
+            />
+          </Box>
+        )}
       </Box>
       <Divider />
-    </>
+    </Box>
   )
 }
 

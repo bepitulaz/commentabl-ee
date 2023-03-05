@@ -16,7 +16,7 @@ import { PUBLIC_CREATE_COMMENT } from './gql'
 const EMAIL_TEXT =
   'If you provide your email, then you will get notification when someone replies to your comment.'
 
-function CommentForm() {
+function CommentForm({ parentCommentId = null}) {
   const {
     register,
     handleSubmit,
@@ -29,7 +29,7 @@ function CommentForm() {
   const onSubmit = (data) => {
     const input = {
       link: window.location.href,
-      parentCommentId: null,
+      parentCommentId,
       authorName: data.fullname,
       authorEmail: data.email,
       comment: data.comment,

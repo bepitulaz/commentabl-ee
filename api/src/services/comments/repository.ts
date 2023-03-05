@@ -62,10 +62,11 @@ export function findCommentById(commentId: string) {
   })
 }
 
-export function findCommentsByParentId(parentId: string) {
+export function findCommentsByParentId({ parentId, isPublished = null }) {
   return db.comment.findMany({
     where: {
       parentId: dbID(parentId),
+      ...(isPublished && { isPublished: true }),
     },
     orderBy: {
       createdAt: 'asc',

@@ -22,6 +22,10 @@ export const schema = gql`
   type CommentWithReplies {
     parent: Comment!
     replies: [Comment]
+    """
+    We use this field resolver from the comment widget
+    """
+    publicReplies: [Comment]
   }
 
   type CommentsData {
