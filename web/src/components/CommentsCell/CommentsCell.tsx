@@ -32,18 +32,41 @@ import { timeTag } from 'src/lib/formatters'
 export const QUERY = gql`
   query CommentsByWebsiteId($websiteId: ID!) {
     comments(websiteId: $websiteId) {
-      id
-      link
-      message
-      isPublished
-      isSpam
-      createdAt
-      websiteId
-      authors {
-        author {
-          name
-          email
+      edges {
+        parent {
+          id
+          link
+          message
+          isPublished
+          isSpam
+          createdAt
+          websiteId
+          authors {
+            author {
+              name
+              email
+            }
+          }
         }
+        replies {
+          id
+          link
+          message
+          isPublished
+          isSpam
+          createdAt
+          websiteId
+          authors {
+            author {
+              name
+              email
+            }
+          }
+        }
+      }
+      pagination {
+        currentPage
+        limit
       }
     }
   }
@@ -100,35 +123,37 @@ export const Success = ({
 
   return (
     <Box>
-      {comments.map((comment) => {
+      {comments.edges.map((comment) => {
+        const parent = comment.parent
+
         return (
-          <Card key={`comment-${comment.id}`} variant="outline" mb={2}>
+          <Card key={`comment-${parent.id}`} variant="outline" mb={2}>
             <CardHeader>
               <Heading as="h5" size="sm">
-                {comment.link}
+                {parent.link}
               </Heading>
               <Text fontSize="sm">
-                From: {comment.authors[0].author.name} &#8226; Email:{' '}
-                {comment.authors[0].author.email ?? 'N/A'}
+                From: {parent.authors[0].author.name} &#8226; Email:{' '}
+                {parent.authors[0].author.email ?? 'N/A'}
               </Text>
-              <Text fontSize="sm">Posted at {timeTag(comment.createdAt)}</Text>
+              <Text fontSize="sm">Posted at {timeTag(parent.createdAt)}</Text>
             </CardHeader>
             <Divider />
             <CardBody>
-              <Text sx={{ whiteSpace: 'pre-wrap' }}>{comment.message}</Text>
+              <Text sx={{ whiteSpace: 'pre-wrap' }}>{parent.message}</Text>
             </CardBody>
             <Divider />
             <Box px={5} pb={5}>
               <CommandRow
-                commentId={comment.id}
-                isCommentPublished={comment.isPublished}
+                commentId={parent.id}
+                isCommentPublished={parent.isPublished}
               />
               <ReplyBox
-                commentId={comment.id}
-                link={comment.link}
-                isCommentPublished={comment.isPublished}
+                commentId={parent.id}
+                link={parent.link}
+                isCommentPublished={parent.isPublished}
                 currentUserId={currentUser.id}
-                websiteId={comment.websiteId}
+                websiteId={parent.websiteId}
               />
             </Box>
           </Card>

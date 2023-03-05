@@ -18,7 +18,7 @@ function CommentList({ link }) {
       link,
     },
   })
-  const comments = data?.publicComments || []
+  const comments = data?.publicComments?.edges || []
 
   if (loading) {
     return (
@@ -34,7 +34,7 @@ function CommentList({ link }) {
       <Box height={400} overflowY="scroll">
         {comments.map((comment) => (
           <CommentRow
-            key={`${comment.id}-${comment.createdAt}`}
+            key={`${comment.parent.id}-${comment.parent.createdAt}`}
             comment={comment}
           />
         ))}
@@ -44,9 +44,9 @@ function CommentList({ link }) {
 }
 
 function CommentRow({ comment }) {
-  const authorName = comment?.authors?.[0]?.author?.name
-  const authorEmail = comment?.authors?.[0]?.author?.email
-  const createdDate = new Date(comment?.createdAt)
+  const authorName = comment?.parent?.authors?.[0]?.author?.name
+  const authorEmail = comment?.parent?.authors?.[0]?.author?.email
+  const createdDate = new Date(comment?.parent?.createdAt)
 
   return (
     <Box py={3}>
@@ -63,7 +63,7 @@ function CommentRow({ comment }) {
           <Text
             px={3}
             sx={{ whiteSpace: 'pre-wrap' }}
-          >{`${comment?.message}`}</Text>
+          >{`${comment?.parent?.message}`}</Text>
           <Box width={100}>
             <Button size="sm" colorScheme="gray">
               <Flex justifyContent="space-between" sx={{ gap: 1 }}>

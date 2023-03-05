@@ -62,6 +62,24 @@ export function findCommentById(commentId: string) {
   })
 }
 
+export function findCommentsByParentId(parentId: string) {
+  return db.comment.findMany({
+    where: {
+      parentId: dbID(parentId),
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      authors: {
+        include: {
+          author: true,
+        },
+      },
+    },
+  })
+}
+
 export function writeComment(input) {
   const dataInput = {
     ...input,

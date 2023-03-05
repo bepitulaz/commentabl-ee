@@ -11,17 +11,38 @@ export const PUBLIC_CREATE_COMMENT = gql`
 export const PUBLIC_COMMENTS = gql`
   query publicComments($link: String!) {
     publicComments(link: $link) {
-      id
-      link
-      message
-      parentId
-      authors {
-        author {
-          name
-          email
+      edges {
+        parent {
+          id
+          link
+          message
+          parentId
+          authors {
+            author {
+              name
+              email
+            }
+          }
+          createdAt
+        }
+        replies {
+          id
+          link
+          message
+          parentId
+          authors {
+            author {
+              name
+              email
+            }
+          }
+          createdAt
         }
       }
-      createdAt
+      pagination {
+        currentPage
+        limit
+      }
     }
   }
 `

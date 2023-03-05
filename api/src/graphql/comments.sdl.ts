@@ -18,13 +18,23 @@ export const schema = gql`
     authors: [CommentsAuthors]
   }
 
+  type CommentWithReplies {
+    parent: Comment!
+    replies: [Comment]
+  }
+
+  type CommentsData {
+    pagination: Pagination!
+    edges: [CommentWithReplies]!
+  }
+
   type Query {
-    comments(websiteId: ID!): [Comment!]! @requireAuth
+    comments(websiteId: ID!): CommentsData! @requireAuth
     comment(id: ID!): Comment @requireAuth
     """
     The query that will be called by web form
     """
-    publicComments(link: String!): [Comment] @skipAuth
+    publicComments(link: String!): CommentsData! @skipAuth
   }
 
   input CreateCommentInput {
