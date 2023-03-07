@@ -1,3 +1,8 @@
+import {
+  EmailAddressTypeDefinition,
+  EmailAddressResolver,
+} from 'graphql-scalars'
+
 import { authDecoder } from '@redwoodjs/auth-dbauth-api'
 import { createGraphQLHandler } from '@redwoodjs/graphql-server'
 
@@ -20,6 +25,12 @@ export const handler = createGraphQLHandler({
   services,
   cors: {
     origin: '*',
+  },
+  schemaOptions: {
+    typeDefs: [EmailAddressTypeDefinition],
+    resolvers: {
+      EmailAddress: EmailAddressResolver,
+    },
   },
   onException: () => {
     // Disconnect from your database with an unhandled exception.

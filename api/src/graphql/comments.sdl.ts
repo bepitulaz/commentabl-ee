@@ -67,7 +67,7 @@ export const schema = gql`
     link: String!
     parentCommentId: ID
     authorName: String!
-    authorEmail: String
+    authorEmail: EmailAddress
     comment: String!
   }
 

@@ -2,7 +2,7 @@ export const schema = gql`
   type Author {
     id: ID!
     name: String!
-    email: String
+    email: EmailAddress
     website: Website
     websiteId: ID
     createdAt: DateTime!
@@ -16,13 +16,13 @@ export const schema = gql`
 
   input CreateAuthorInput {
     name: String!
-    email: String
+    email: EmailAddress
     websiteId: ID!
   }
 
   input UpdateAuthorInput {
     name: String
-    email: String
+    email: EmailAddress
     websiteId: ID
   }
 

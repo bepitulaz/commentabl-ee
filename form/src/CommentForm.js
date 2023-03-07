@@ -16,7 +16,7 @@ import { PUBLIC_CREATE_COMMENT } from './gql'
 const EMAIL_TEXT =
   'If you provide your email, then you will get notification when someone replies to your comment.'
 
-function CommentForm({ parentCommentId = null}) {
+function CommentForm({ parentCommentId = null }) {
   const {
     register,
     handleSubmit,
@@ -54,10 +54,23 @@ function CommentForm({ parentCommentId = null}) {
         />
         <FormErrorMessage>{errors?.fullname?.message}</FormErrorMessage>
       </FormControl>
-      <FormControl py={1}>
+      <FormControl py={1} isInvalid={'email' in errors}>
         <FormLabel>Your email</FormLabel>
-        <Input type="email" {...register('email')} />
+        <Input
+          type="text"
+          {...register('email', {
+            validate: {
+              email: (v) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                return (
+                  emailRegex.test(v) || 'Please, input a valid email address'
+                )
+              },
+            },
+          })}
+        />
         <FormHelperText>{EMAIL_TEXT}</FormHelperText>
+        <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
       </FormControl>
       <FormControl py={1} isInvalid={'comment' in errors}>
         <FormLabel>Your comment</FormLabel>
