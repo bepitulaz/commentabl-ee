@@ -1,6 +1,10 @@
 import type { APIGatewayProxyEvent, Context } from 'aws-lambda'
 
-import { DbAuthHandler, DbAuthHandlerOptions } from '@redwoodjs/auth-dbauth-api'
+import {
+  DbAuthHandler,
+  DbAuthHandlerOptions,
+  PasswordValidationError,
+} from '@redwoodjs/auth-dbauth-api'
 
 import { db } from 'src/lib/db'
 
@@ -121,7 +125,15 @@ export const handler = async (
     // Include any format checks for password here. Return `true` if the
     // password is valid, otherwise throw a `PasswordValidationError`.
     // Import the error along with `DbAuthHandler` from `@redwoodjs/api` above.
-    passwordValidation: (_password) => {
+    passwordValidation: (password) => {
+      const regex =
+        /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/
+
+      if (!regex.test(password)) {
+        throw new PasswordValidationError(
+          'Password must be at least 8 characters long and contain at least 1 uppercase letter and 1 number'
+        )
+      }
       return true
     },
 
