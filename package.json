@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^4.0.16",
-    "@redwoodjs/auth-dbauth-setup": "4.2.2",
-    "@redwoodjs/core": "4.2.2"
+    "@redwoodjs/auth-dbauth-setup": "4.3.1",
+    "@redwoodjs/core": "4.3.1"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

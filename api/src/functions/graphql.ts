@@ -16,6 +16,7 @@ import generateGraphiQLHeader from 'src/lib/generateGraphiQLHeader'
 import { logger } from 'src/lib/logger'
 
 export const handler = createGraphQLHandler({
+  cors: { origin: process.env.REDWOOD_WEB_URL, credentials: true },
   authDecoder,
   getCurrentUser,
   generateGraphiQLHeader,
@@ -23,9 +24,6 @@ export const handler = createGraphQLHandler({
   directives,
   sdls,
   services,
-  cors: {
-    origin: '*',
-  },
   schemaOptions: {
     typeDefs: [EmailAddressTypeDefinition],
     resolvers: {

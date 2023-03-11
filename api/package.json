@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "4.2.2",
-    "@redwoodjs/auth-dbauth-api": "4.2.2",
-    "@redwoodjs/graphql-server": "4.2.2",
+    "@redwoodjs/api": "4.3.1",
+    "@redwoodjs/auth-dbauth-api": "4.3.1",
+    "@redwoodjs/graphql-server": "4.3.1",
     "@simplewebauthn/server": "^6",
     "graphql-scalars": "^1.20.1"
   }
