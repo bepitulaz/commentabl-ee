@@ -16,6 +16,7 @@
           "buildType": "nixpacks",
           "cpu": 0.25,
           "memory": 0.5,
+          "installCommand": "NODE_ENV=development yarn install --immutable",
           "buildCommand": "yarn rw deploy flightcontrol api",
           "startCommand": "yarn rw deploy flightcontrol api --serve",
           "port": 8911,
@@ -41,6 +42,7 @@
           "type": "static",
           "buildType": "nixpacks",
           "singlePageApp": true,
+          "installCommand": "NODE_ENV=development yarn install --immutable",
           "buildCommand": "yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
           "envVariables": {
