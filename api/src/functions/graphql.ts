@@ -12,8 +12,18 @@ import services from 'src/services/**/*.{js,ts}'
 
 import { getCurrentUser } from 'src/lib/auth'
 import { db } from 'src/lib/db'
-import generateGraphiQLHeader from 'src/lib/generateGraphiQLHeader'
 import { logger } from 'src/lib/logger'
+
+// Make GraphiQLHeader only available in development.
+let generateGraphiQLHeader = undefined
+if (process.env.NODE_ENV === 'development') {
+  try {
+    const module = require('api/dist/lib/generateGraphiQLHeader')
+    generateGraphiQLHeader = module.default
+  } catch (err) {
+    console.log('Could not find generateGraphiQLHeader')
+  }
+}
 
 export const handler = createGraphQLHandler({
   cors: { origin: process.env.REDWOOD_WEB_URL, credentials: true },
