@@ -198,13 +198,15 @@ export const handler = async (
       // *must* re-enter username and password to authenticate (WebAuthn will
       // then be re-enabled for this amount of time).
       expires: 60 * 60 * 24 * 365 * 10,
-      name: 'Redwood Application',
+      name: 'Commentable.ee',
       domain:
-        process.env.NODE_ENV === 'development' ? 'localhost' : 'server.com',
+        process.env.NODE_ENV === 'development'
+          ? 'localhost'
+          : process.env.WEB_AUTHN_DOMAIN,
       origin:
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:8910'
-          : 'https://server.com',
+          : `https://${process.env.WEB_AUTHN_DOMAIN}`,
       type: 'platform',
       timeout: 60000,
       credentialFields: {
