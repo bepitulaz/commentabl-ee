@@ -19,8 +19,11 @@ const App = () => (
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <ColorModeScript />
       <ChakraProvider theme={extendedTheme}>
-        <AuthProvider>
-          <RedwoodApolloProvider useAuth={useAuth}>
+        <AuthProvider type="dbAuth">
+          <RedwoodApolloProvider
+            useAuth={useAuth}
+            graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
+          >
             <Routes />
           </RedwoodApolloProvider>
         </AuthProvider>
