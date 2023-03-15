@@ -45,7 +45,8 @@
                 "id": "db",
                 "value": "dbConnectionString"
               }
-            }
+            },
+            "NODE_ENV": "production"
           }
         },
         {
@@ -63,7 +64,8 @@
                 "id": "commentabl-api",
                 "value": "origin"
               }
-            }
+            },
+            "NODE_ENV": "production"
           }
         },
         {

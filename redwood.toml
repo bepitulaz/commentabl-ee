@@ -9,7 +9,7 @@
   title = "Commentabl.ee"
   port = 8910
   apiUrl = "${REDWOOD_API_URL}"
-  includeEnvironmentVariables = ["WEB_AUTHN_DOMAIN", "WEB_AUTHN_ORIGIN", "NODE_ENV", "REDWOOD_API_URL", "SESSION_SECRET"] # any ENV vars that should be available to the web side, see https://redwoodjs.com/docs/environment-variables#web
+  includeEnvironmentVariables = ["REDWOOD_API_URL", "NODE_ENV"] # any ENV vars that should be available to the web side, see https://redwoodjs.com/docs/environment-variables#web
 [api]
   port = 8911
 [browser]
