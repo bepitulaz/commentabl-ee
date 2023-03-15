@@ -180,7 +180,7 @@ export const handler = async (
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
-      Domain: process.env.WEB_AUTHN_DOMAIN,
+      // Domain: process.env.WEB_AUTHN_DOMAIN,
     },
 
     forgotPassword: forgotPasswordOptions,
@@ -206,7 +206,7 @@ export const handler = async (
       origin:
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:8910'
-          : `https://${process.env.WEB_AUTHN_DOMAIN}`,
+          : process.env.WEB_AUTHN_ORIGIN,
       type: 'platform',
       timeout: 60000,
       credentialFields: {
