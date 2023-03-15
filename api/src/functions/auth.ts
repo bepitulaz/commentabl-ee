@@ -176,11 +176,14 @@ export const handler = async (
       HttpOnly: true,
       Path: '/',
       SameSite: 'None',
-      Secure: process.env.NODE_ENV !== 'development' ? true : false,
+      //Secure: process.env.NODE_ENV !== 'development' ? true : false,
+      Secure: false,
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
-      Domain: process.env.WEB_AUTHN_DOMAIN,
+      ...(process.env.NODE_ENV !== 'development'
+        ? { Domain: process.env.WEB_AUTHN_DOMAIN }
+        : {}),
     },
 
     forgotPassword: forgotPasswordOptions,
