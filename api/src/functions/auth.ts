@@ -181,7 +181,7 @@ export const handler = async (
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
       ...(process.env.NODE_ENV === 'production'
-        ? { Domain: process.env.WEB_AUTHN_DOMAIN }
+        ? { Domain: process.env.REDWOOD_WEB_DOMAIN }
         : {}),
     },
 
