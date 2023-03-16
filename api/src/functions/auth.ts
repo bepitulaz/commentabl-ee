@@ -176,8 +176,7 @@ export const handler = async (
       HttpOnly: true,
       Path: '/',
       SameSite: 'None',
-      //Secure: process.env.NODE_ENV !== 'development' ? true : false,
-      Secure: true,
+      Secure: process.env.NODE_ENV !== 'development' ? true : false,
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
@@ -205,11 +204,11 @@ export const handler = async (
       domain:
         process.env.NODE_ENV === 'development'
           ? 'localhost'
-          : process.env.WEB_AUTHN_DOMAIN,
+          : process.env.REDWOOD_WEB_DOMAIN,
       origin:
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:8910'
-          : process.env.WEB_AUTHN_ORIGIN,
+          : process.env.REDWOOD_WEB_URL,
       type: 'platform',
       timeout: 60000,
       credentialFields: {

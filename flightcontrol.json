@@ -16,9 +16,9 @@
           "buildType": "nixpacks",
           "cpu": 0.25,
           "memory": 0.5,
-          "installCommand": "yarn install --immutable",
-          "buildCommand": "yarn rw deploy flightcontrol api",
-          "startCommand": "yarn rw deploy flightcontrol api --serve",
+          "installCommand": "NODE_ENV=production yarn install --immutable",
+          "buildCommand": "NODE_ENV=production yarn rw deploy flightcontrol api",
+          "startCommand": "NODE_ENV=production yarn rw deploy flightcontrol api --serve",
           "port": 8911,
           "healthCheckPath": "/graphql/health",
           "envVariables": {
@@ -28,16 +28,10 @@
                 "value": "origin"
               }
             },
-            "WEB_AUTHN_DOMAIN": {
+            "REDWOOD_WEB_DOMAIN": {
               "fromService": {
                 "id": "commentabl-web",
                 "value": "host"
-              }
-            },
-            "WEB_AUTHN_ORIGIN": {
-              "fromService": {
-                "id": "commentabl-web",
-                "value": "origin"
               }
             },
             "DATABASE_URL": {
@@ -45,8 +39,7 @@
                 "id": "db",
                 "value": "dbConnectionString"
               }
-            },
-            "NODE_ENV": "production"
+            }
           }
         },
         {
@@ -55,8 +48,8 @@
           "type": "static",
           "buildType": "nixpacks",
           "singlePageApp": true,
-          "installCommand": "yarn install --immutable",
-          "buildCommand": "yarn rw deploy flightcontrol web",
+          "installCommand": "NODE_ENV=production yarn install --immutable",
+          "buildCommand": "NODE_ENV=production yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
           "envVariables": {
             "REDWOOD_API_URL": {
@@ -64,8 +57,7 @@
                 "id": "commentabl-api",
                 "value": "origin"
               }
-            },
-            "NODE_ENV": "production"
+            }
           }
         },
         {
