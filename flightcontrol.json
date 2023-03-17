@@ -23,24 +23,13 @@
           "healthCheckPath": "/graphql/health",
           "domain": "dev-api.commentabl.ee",
           "envVariables": {
-            "REDWOOD_WEB_URL": {
-              "fromService": {
-                "id": "commentabl-web",
-                "value": "origin"
-              }
-            },
-            "REDWOOD_WEB_DOMAIN": {
-              "fromService": {
-                "id": "commentabl-web",
-                "value": "host"
-              }
-            },
             "DATABASE_URL": {
               "fromService": {
                 "id": "db",
                 "value": "dbConnectionString"
               }
-            }
+            },
+            "NODE_ENV": "production"
           }
         },
         {
@@ -54,12 +43,7 @@
           "outputDirectory": "web/dist",
           "domain": "dev-app.commentabl.ee",
           "envVariables": {
-            "REDWOOD_API_URL": {
-              "fromService": {
-                "id": "commentabl-api",
-                "value": "origin"
-              }
-            }
+            "NODE_ENV": "production"
           }
         },
         {
