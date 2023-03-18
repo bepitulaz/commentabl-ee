@@ -21,7 +21,7 @@
           "startCommand": "yarn rw deploy flightcontrol api --serve",
           "port": 8911,
           "healthCheckPath": "/graphql/health",
-          "domain": "dev-api.commentabl.ee",
+          "domain": "devapi.commentabl.ee",
           "envVariables": {
             "DATABASE_URL": {
               "fromService": {
@@ -41,7 +41,7 @@
           "installCommand": "yarn install --immutable",
           "buildCommand": "yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
-          "domain": "dev-app.commentabl.ee",
+          "domain": "devapp.commentabl.ee",
           "envVariables": {
             "NODE_ENV": "production"
           }
