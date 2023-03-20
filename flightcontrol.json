@@ -28,18 +28,6 @@
                 "id": "db",
                 "value": "dbConnectionString"
               }
-            },
-            "REDWOOD_WEB_URL": {
-              "fromService": {
-                "id": "commentabl-web",
-                "value": "origin"
-              }
-            },
-            "REDWOOD_WEB_DOMAIN": {
-              "fromService": {
-                "id": "commentabl-web",
-                "value": "host"
-              }
             }
           }
         },
@@ -52,15 +40,7 @@
           "installCommand": "yarn set version stable && NODE_ENV=development yarn install",
           "buildCommand": "yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
-          "domain": "app-dev.commentabl.ee",
-          "envVariables": {
-            "REDWOOD_API_URL": {
-              "fromService": {
-                "id": "commentabl-api",
-                "value": "origin"
-              }
-            }
-          }
+          "domain": "app-dev.commentabl.ee"
         },
         {
           "id": "db",
