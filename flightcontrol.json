@@ -37,7 +37,8 @@
             },
             "SESSION_SECRET": {
               "fromParameterStore": "fc.commentabl-ee.env.development.6ztn0dqu.SESSION_SECRET"
-            }
+            },
+            "NODE_ENV": "production"
           }
         },
         {

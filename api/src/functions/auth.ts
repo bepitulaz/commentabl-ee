@@ -175,7 +175,7 @@ export const handler = async (
     cookie: {
       HttpOnly: true,
       Path: '/',
-      SameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'None',
+      SameSite: 'None',
       Secure: process.env.NODE_ENV === 'production',
 
       // If you need to allow other domains (besides the api side) access to
