@@ -35,6 +35,9 @@
             "REDWOOD_WEB_DOMAIN": {
               "fromParameterStore": "fc.commentabl-ee.env.development.drty07tp.REDWOOD_WEB_DOMAIN"
             },
+            "REDWOOD_WEB_ROOT_DOMAIN": {
+              "fromParameterStore": "fc.commentabl-ee.env.development.x2fn08wo.REDWOOD_WEB_ROOT_DOMAIN"
+            },
             "SESSION_SECRET": {
               "fromParameterStore": "fc.commentabl-ee.env.development.6ztn0dqu.SESSION_SECRET"
             },

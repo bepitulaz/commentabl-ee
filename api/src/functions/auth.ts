@@ -7,9 +7,6 @@ import {
 } from '@redwoodjs/auth-dbauth-api'
 
 import { db } from 'src/lib/db'
-import { logger } from 'src/lib/logger'
-
-logger.info(`Auth environment ${process.env.NODE_ENV}`)
 
 console.log('Auth environment (console.log)', process.env.NODE_ENV)
 
@@ -186,7 +183,7 @@ export const handler = async (
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
       ...(process.env.NODE_ENV === 'production'
-        ? { Domain: process.env.REDWOOD_WEB_DOMAIN }
+        ? { Domain: process.env.REDWOOD_WEB_ROOT_DOMAIN }
         : {}),
     },
 
