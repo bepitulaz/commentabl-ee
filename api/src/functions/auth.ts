@@ -7,6 +7,11 @@ import {
 } from '@redwoodjs/auth-dbauth-api'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
+
+logger.info(`Auth environment ${process.env.NODE_ENV}`)
+
+console.log('Auth environment (console.log)', process.env.NODE_ENV)
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -176,7 +181,7 @@ export const handler = async (
       HttpOnly: true,
       Path: '/',
       SameSite: 'None',
-      Secure: process.env.NODE_ENV === 'production',
+      Secure: true,
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
